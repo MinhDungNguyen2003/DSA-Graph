@@ -172,6 +172,9 @@ bool is_complete_graph(int** arr, int vertex){
     for(int i = 0; i < vertex; i++){
         for(int j = 0; j < vertex; j++){
             if(i != j){
+                if(arr[i][j] == 0){
+                    return 0;
+                }
                 if(arr[i][j] != arr[j][i]){
                     return 0;
                 }
@@ -182,8 +185,71 @@ bool is_complete_graph(int** arr, int vertex){
     return 1;
 }
 
-bool is_circular_graph(int** arr, int vertex);
+bool is_circular_graph(int** arr, int vertex){
 
-bool is_bigraph_graph(int** arr, int vertex);
+    if (vertex < 3){
+        return 0;
+    }
 
-bool is_complete_bigraph(int** arr, int vertex);
+    for(int i = 0; i < vertex - 1; i++){
+        if(arr[i][i + 1] == 0){
+            return 0;
+        }
+        else{
+            if (arr[i][i + 1] != arr[i + 1][i]){
+                return 0;
+            }
+        }
+    }
+        
+    if(arr[0][vertex - 1] == 0){
+        return 0;
+    }
+    else{
+        if(arr[0][vertex - 1] != arr[vertex - 1][0]){
+            return 0;
+        }
+    }
+            
+    return 1;
+
+}
+
+bool is_bigraph_graph(int** arr, int vertex, int src){
+
+    //create array contain color vertex
+    int colorArr[vertex];
+    for(int i = 0; i < vertex; i++){
+        colorArr[i] = -1;
+    }
+
+    //asign first color to source
+    colorArr[src] = 1;
+
+    queue<int> q;
+    q.push(src);
+
+    while(!q.empty()){
+        int u = q.front();
+        q.pop();
+
+        // Return false if there is a self-loop
+        if(arr[u][u] == 1){
+            return 0;
+        }
+
+        for(int v = 0; v < vertex; v++){
+            if(arr[u][v] && colorArr[v] == -1){
+                colorArr[v] = 1 - colorArr[u];
+                q.push(v);
+            }
+            else if (arr[u][v] && colorArr[v] == colorArr[u]){
+                return 0;
+            }
+        }
+    }
+    return 1;
+
+}
+
+bool is_complete_bigraph(int** arr, int vertex, int src);
