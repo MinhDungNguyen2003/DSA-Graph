@@ -3,12 +3,13 @@
 #include <string>
 #include <sstream>
 #include <queue>
+#include <vector>
 
 using namespace std;
 
 void DFS(int** arr, int vertex, int visited[], int src);
 
-void BFS(int** arr, int vertex, int visited[], int src);
+vector<int> BFS(int** arr, int vertex, int visited[], int src);
 
 void print_adjacency_maxtrix(int** arr, int vertex);
 
@@ -36,7 +37,7 @@ bool is_bigraph(int** arr, int vertex, int src, int colorArray[]);
 
 bool is_complete_bigraph(int** arr, int vertex, int src, int colorArray[]);
 
-int number_connect_components(int** arr, int vertex);
+int number_connect_components(int** arr, int vertex, int &ntree);
 
 
 

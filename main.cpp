@@ -10,8 +10,9 @@ int main(){
     int colorArray[vertex];
     int visited[vertex] = {0};
 
-    cout << number_connect_components(arr, vertex);
-
+    int ntree = 0;
+    cout << number_connect_components(arr, vertex, ntree);
+    cout << ntree;
 
 
     delete[] arr;

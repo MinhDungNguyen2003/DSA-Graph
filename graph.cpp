@@ -11,10 +11,13 @@ void DFS(int** arr, int vertex, int visited[], int src){
 
 }
 
-void BFS(int** arr, int vertex, int visited[], int src){
+vector<int> BFS(int** arr, int vertex, int visited[], int src){
 
+    vector<int> c;
     queue<int> q;
     q.push(src);
+    c.push_back(src);
+
     visited[src] = 1;
     while(!q.empty()){
 
@@ -26,11 +29,14 @@ void BFS(int** arr, int vertex, int visited[], int src){
                 if(arr[u][v] && !visited[v]){
                     visited[v] = 1;
                     q.push(v);
+                    c.push_back(v);
                 }
             }
         }
         
     }
+    
+    return c;
 
 }
 
@@ -321,7 +327,6 @@ bool is_bigraph(int** arr, int vertex, int src, int colorArr[]){
 
 bool is_complete_bigraph(int** arr, int vertex, int src, int colorArray[]){
 
-    
     if(!is_bigraph(arr, vertex, 0, colorArray)){
         return 0;
     }
@@ -341,15 +346,62 @@ bool is_complete_bigraph(int** arr, int vertex, int src, int colorArray[]){
     return 1;
 }
 
-int number_connect_components(int** arr, int vertex){
+bool isCycle(int** arr, bool vis[], int u, int vertex, int parent){
+
+    vis[u] = true;    //mark v as visited
+    for (int v = 0; v < vertex; v++) {
+        if (arr[u][v]) {
+            if (!vis[v]) {     //when the adjacent node v is not visited
+                if (isCycle(arr, vis, v, vertex, u)) {
+                    return true;
+                }
+            }
+            else if (v != parent) {    //when adjacent vertex is visited but not parent
+                return true;    //there is a cycle
+            }
+        }
+    }
+    return false;
+}
+
+int number_connect_components(int** arr, int vertex, int &ntree){
 
     int visited[vertex] = {0};
     int cnt = 0;
     for(int i = 0; i < vertex; i++){
         if(!visited[i]){
-            DFS(arr, vertex, visited, i);
+            vector<int> c;
+            c = BFS(arr, vertex, visited, i);
             cnt++;
+            
+            int** a = new int* [c.size()];
+            for(int i = 0; i < c.size(); i++){
+                a[i] = new int [c.size()];
+            }
+
+            for(int j = 0; j < c.size(); j++){
+                for(int k = 0; k < c.size(); k++){
+                    a[j][k] = arr[c[j]][c[k]];
+                }
+            }
+            
+            bool* vis = new bool [c.size()];
+            for(int i = 0; i < c.size(); i++){
+                vis[i] = 0;
+            }
+
+            if (isCycle(a, vis, 0, c.size(), -1) == 0){
+                ntree += 1;
+            }
+
+            for(int i = 0; i < c.size(); i++){
+                delete[] a[i];
+            }
+            delete[] a;
+            delete[] vis;
         }
     }
+    
     return cnt;
 }
+
