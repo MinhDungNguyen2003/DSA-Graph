@@ -1,5 +1,40 @@
 #include "graph.h"
 
+void DFS(int** arr, int vertex, int visited[], int src){
+
+    visited[src] = 1;
+    for(int u = 0; u < vertex; u++){
+        if(arr[src][u] && visited[u] == 0){
+            DFS(arr, vertex, visited, u);
+        }
+    }
+
+}
+
+void BFS(int** arr, int vertex, int visited[], int src){
+
+    queue<int> q;
+    q.push(src);
+    visited[src] = 1;
+    while(!q.empty()){
+
+        int u = q.front();
+        q.pop();
+        
+        for(int v = 0; v < vertex; v++){
+            if (u != v){
+                if(arr[u][v] && !visited[v]){
+                    visited[v] = 1;
+                    q.push(v);
+                }
+            }
+        }
+        
+    }
+
+}
+
+
 void print_adjacency_maxtrix(int** arr, int vertex){
     
     for(int i = 0; i < vertex; i++){
@@ -37,7 +72,7 @@ void read_adjacency_maxtrix(string file_name){
 
 }
 
-int** read_adjacency_list(string file_name, int &vertex){
+int** read_adjacency_list_digraph(string file_name, int &vertex){
 
     fstream fin(file_name, ios::in);
     string get;
@@ -61,6 +96,38 @@ int** read_adjacency_list(string file_name, int &vertex){
         string word;
         while(s >> word){
             arr[i][stoi(word)] = 1;
+        }
+        i++;
+    }
+
+    return arr;
+}
+
+int** read_adjacency_list_ungraph(string file_name, int &vertex){
+
+    fstream fin(file_name, ios::in);
+    string get;
+    getline(fin, get);
+    vertex = stoi(get);
+
+    int** arr = new int*[vertex];
+    for(int i = 0; i < vertex; i++){
+        arr[i] = new int [vertex];
+    }
+
+    for(int i = 0; i < vertex; i++){
+        for(int j = 0; j < vertex; j++){
+            arr[i][j] = 0;
+        }
+    }
+    
+    int i = 0;
+    while(getline(fin, get)){
+        stringstream s(get);
+        string word;
+        while(s >> word){
+            arr[i][stoi(word)] = 1;
+            arr[stoi(word)][i] = 1;
         }
         i++;
     }
@@ -259,15 +326,30 @@ bool is_complete_bigraph(int** arr, int vertex, int src, int colorArray[]){
         return 0;
     }
 
-    for(int v = 0; v < vertex; v++){
-        for(int u = 0; u < vertex; u++){
-            if(colorArray[v] != colorArray[u]){
-                if(arr[v][u] == 0){
-                    return 0;
+    for(int u = 0; u < vertex; u++){
+        for(int v = 0; v < vertex; v++){
+            if(u != v){
+                if(colorArray[u] != colorArray[v]){
+                    if(arr[u][v] == 0){
+                        return 0;
+                    }
                 }
             }
         }
     }
 
     return 1;
+}
+
+int number_connect_components(int** arr, int vertex){
+
+    int visited[vertex] = {0};
+    int cnt = 0;
+    for(int i = 0; i < vertex; i++){
+        if(!visited[i]){
+            DFS(arr, vertex, visited, i);
+            cnt++;
+        }
+    }
+    return cnt;
 }
