@@ -6,7 +6,10 @@ int main(){
     int vertex;
     int** arr = read_adjacency_list(file_name, vertex);
     print_adjacency_maxtrix(arr, vertex);
-    cout << is_bigraph_graph(arr, vertex, 0);
+
+    int colorArray[vertex];
+    cout << is_bigraph(arr, vertex, 0, colorArray) << endl;
+    cout << is_complete_bigraph(arr, vertex, colorArray);
 
     delete[] arr;
 }

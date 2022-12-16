@@ -26,6 +26,6 @@ bool is_complete_graph(int** arr, int vertex);
 
 bool is_circular_graph(int** arr, int vertex);
 
-bool is_bigraph_graph(int** arr, int vertex, int src);
+bool is_bigraph(int** arr, int vertex, int src, int colorArray[]);
 
-bool is_complete_bigraph(int** arr, int vertex);
+bool is_complete_bigraph(int** arr, int vertex, int colorArray[]);

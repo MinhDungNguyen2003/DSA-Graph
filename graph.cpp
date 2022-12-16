@@ -215,10 +215,10 @@ bool is_circular_graph(int** arr, int vertex){
 
 }
 
-bool is_bigraph_graph(int** arr, int vertex, int src){
+bool is_bigraph(int** arr, int vertex, int src, int colorArr[]){
 
     //create array contain color vertex
-    int colorArr[vertex];
+    colorArr[vertex];
     for(int i = 0; i < vertex; i++){
         colorArr[i] = -1;
     }
@@ -252,4 +252,22 @@ bool is_bigraph_graph(int** arr, int vertex, int src){
 
 }
 
-bool is_complete_bigraph(int** arr, int vertex, int src);
+bool is_complete_bigraph(int** arr, int vertex, int src, int colorArray[]){
+
+    
+    if(!is_bigraph(arr, vertex, 0, colorArray)){
+        return 0;
+    }
+
+    for(int v = 0; v < vertex; v++){
+        for(int u = 0; u < vertex; u++){
+            if(colorArray[v] != colorArray[u]){
+                if(arr[v][u] == 0){
+                    return 0;
+                }
+            }
+        }
+    }
+
+    return 1;
+}
