@@ -15,6 +15,8 @@ void print_adjacency_maxtrix(int** arr, int vertex);
 
 void read_adjacency_maxtrix(string file_name, vector<int>* &adj, int &vertex);
 
+void print_adjacency_list(vector<int>* adj, int vertex);
+
 int** read_adjacency_list_digraph(string file_name, int &vertex);
 
 int** read_adjacency_list_ungraph(string file_name, int &vertex);

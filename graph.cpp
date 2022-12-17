@@ -43,6 +43,7 @@ vector<int> BFS(int** arr, int vertex, int visited[], int src){
 
 void print_adjacency_maxtrix(int** arr, int vertex){
     
+    cout << "Matrix: " << endl;
     for(int i = 0; i < vertex; i++){
         for(int j = 0; j < vertex; j++){
             cout << arr[i][j] << " ";
@@ -53,7 +54,6 @@ void print_adjacency_maxtrix(int** arr, int vertex){
 }
 
 void read_adjacency_maxtrix(string file_name, vector<int>* &adj, int &vertex){
-
 
     fstream fin;
     fin.open(file_name, ios::in);
@@ -79,7 +79,18 @@ void read_adjacency_maxtrix(string file_name, vector<int>* &adj, int &vertex){
     }
     fin.close();
 
+}
 
+void print_adjacency_list(vector<int>* adj, int vertex){
+
+    cout << "List: " << endl;
+    for(int i = 0; i < vertex; i++){
+        for(auto v : adj[i]){
+           cout << v << " ";
+        }
+        cout << endl;
+    }
+    
 }
 
 int** read_adjacency_list_digraph(string file_name, int &vertex){
@@ -212,11 +223,11 @@ void degree_undigraph(int** arr, int vertex){
                 degree += 1;
             }
         }
-        cout << "Deg(" << i << ") = " << degree;
+        cout << "Deg(" << i << ") = " << degree << " ";
         degree = 0; 
         i++;
     }
-
+    cout << endl;
 }
 
 void list_isolated_vertices(int** arr, int vertex){
@@ -488,8 +499,10 @@ void findBridges_Tarjan(vector<int> adj[], int vertex)
 		if(disc[i]==-1)
 			Bridge(adj, i, disc, low, parent, bridge);
 
+    cout << "The number of bridge edges is: " << bridge.size() << endl;
 	cout<<"Bridges are: ";
 	for(auto it: bridge)
 		cout<<"(" << it.first << ";" << it.second<<")" << " ";
     
+
 }
