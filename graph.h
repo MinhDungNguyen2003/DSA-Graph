@@ -21,6 +21,8 @@ int** read_adjacency_list_digraph(string file_name, int &vertex);
 
 int** read_adjacency_list_ungraph(string file_name, int &vertex);
 
+void write_adjacency_matrix(int** arr, int vertex);
+
 bool is_digraph(int** a, int vertex);
 
 int numberE_numberV(int** arr, int vertex);

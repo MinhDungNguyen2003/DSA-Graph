@@ -43,7 +43,6 @@ vector<int> BFS(int** arr, int vertex, int visited[], int src){
 
 void print_adjacency_maxtrix(int** arr, int vertex){
     
-    cout << "Matrix: " << endl;
     for(int i = 0; i < vertex; i++){
         for(int j = 0; j < vertex; j++){
             cout << arr[i][j] << " ";
@@ -154,6 +153,22 @@ int** read_adjacency_list_ungraph(string file_name, int &vertex){
     }
 
     return arr;
+}
+
+void write_adjacency_matrix(int** arr, int vertex){
+
+    fstream fout("graph.txt", ios::out);
+
+    fout << vertex << endl;
+
+    for(int i = 0; i < vertex; i++){
+        for(int j = 0; j < vertex; j++){
+            fout << arr[i][j] << " ";
+        }
+        fout << endl;
+    }
+
+    fout.close();
 }
 
 bool is_digraph(int** a, int vertex){
