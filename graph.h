@@ -13,7 +13,7 @@ vector<int> BFS(int** arr, int vertex, int visited[], int src);
 
 void print_adjacency_maxtrix(int** arr, int vertex);
 
-void read_adjacency_maxtrix(string file_name);
+void read_adjacency_maxtrix(string file_name, vector<int>* &adj, int &vertex);
 
 int** read_adjacency_list_digraph(string file_name, int &vertex);
 
@@ -39,5 +39,11 @@ bool is_complete_bigraph(int** arr, int vertex, int src, int colorArray[]);
 
 int number_connect_components(int** arr, int vertex, int &ntree);
 
+void APUtil(vector<int> adj[], int u, bool visited[], int disc[], int low[], int& time, int parent, bool isAP[]);
 
+void AP(vector<int> adj[], int vertex);
+
+void Bridge(vector<int> adj[], int u, vector<int>& disc, vector<int>& low, vector<int>& parent, vector<pair<int,int>>& bridge);
+
+void findBridges_Tarjan(vector<int> adj[], int vertex);
 

@@ -52,29 +52,33 @@ void print_adjacency_maxtrix(int** arr, int vertex){
     cout << endl;
 }
 
-void read_adjacency_maxtrix(string file_name){
+void read_adjacency_maxtrix(string file_name, vector<int>* &adj, int &vertex){
+
 
     fstream fin;
     fin.open(file_name, ios::in);
     string get;
     int i = 0;
     fin >> get;
-    int vertex = stoi(get);
+    vertex = stoi(get);
+    int u = 0;
+    adj = new vector<int>[vertex];
     while(fin >> get){
         if(get == "0"){
             i++;
         }
         if (get == "1"){
-            cout << i << " ";
+            adj[u].push_back(i);
             i++;
         }
         if(i == vertex){
-            cout << endl;
+            u++;
             i = 0;
         }
 
     }
     fin.close();
+
 
 }
 
@@ -405,3 +409,87 @@ int number_connect_components(int** arr, int vertex, int &ntree){
     return cnt;
 }
 
+void APUtil(vector<int> adj[], int u, bool visited[], int disc[], int low[], int& time, int parent, bool isAP[])
+{
+
+    int children = 0;
+ 
+    visited[u] = true;
+
+    disc[u] = low[u] = ++time;
+ 
+    for (auto v : adj[u]) {
+        if (!visited[v]) {
+            children++;
+            APUtil(adj, v, visited, disc, low, time, u, isAP);
+ 
+            low[u] = min(low[u], low[v]);
+ 
+            if (parent != -1 && low[v] >= disc[u])
+                isAP[u] = true;
+        }
+ 
+        else if (v != parent)
+            low[u] = min(low[u], disc[v]);
+    }
+ 
+    if (parent == -1 && children > 1)
+        isAP[u] = true;
+}
+ 
+void AP(vector<int> adj[], int vertex)
+{
+    int disc[vertex] = { 0 };
+    int low[vertex];
+    bool visited[vertex] = { false };
+    bool isAP[vertex] = { false };
+    int time = 0, par = -1;
+ 
+    for (int u = 0; u < vertex; u++)
+        if (!visited[u])
+            APUtil(adj, u, visited, disc, low,
+                   time, par, isAP);
+                   
+    for (int u = 0; u < vertex; u++)
+        if (isAP[u] == true)
+            cout << u << " ";
+
+    cout << endl;
+}
+
+void Bridge(vector<int> adj[], int u, vector<int>& disc, vector<int>& low, vector<int>& parent, vector<pair<int,int>>& bridge)
+{
+	static int time = 0;
+	disc[u] = low[u] = time;
+	time += 1;
+
+	for(int v: adj[u])
+	{
+		if(disc[v]==-1)	//If v is not visited
+		{
+			parent[v] = u;
+			Bridge(adj, v, disc, low, parent, bridge);
+			low[u] = min(low[u],low[v]);
+
+			if(low[v] > disc[u])
+				bridge.push_back({u,v});
+		}
+		else if(v!=parent[u])	//Ignore child to parent edge
+			low[u] = min(low[u],disc[v]);
+	}
+}
+
+void findBridges_Tarjan(vector<int> adj[], int vertex)
+{
+	vector<int> disc(vertex, -1), low(vertex, -1), parent(vertex, -1);
+	vector<pair<int,int>> bridge;
+
+	for(int i = 0 ;i < vertex; i++)
+		if(disc[i]==-1)
+			Bridge(adj, i, disc, low, parent, bridge);
+
+	cout<<"Bridges are: ";
+	for(auto it: bridge)
+		cout<<"(" << it.first << ";" << it.second<<")" << " ";
+    
+}
