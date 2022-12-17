@@ -458,14 +458,20 @@ void AP(vector<int> adj[], int vertex)
  
     for (int u = 0; u < vertex; u++)
         if (!visited[u])
-            APUtil(adj, u, visited, disc, low,
-                   time, par, isAP);
-                   
-    for (int u = 0; u < vertex; u++)
-        if (isAP[u] == true)
-            cout << u << " ";
+            APUtil(adj, u, visited, disc, low, time, par, isAP);
 
+    int count =0;
+
+    for (int u = 0; u < vertex; u++){
+        if (isAP[u] == true){
+            cout << u << " ";
+            count++;
+        }
+    }
     cout << endl;
+
+    cout << "The number of cut vertices: " << count << endl; 
+        
 }
 
 void Bridge(vector<int> adj[], int u, vector<int>& disc, vector<int>& low, vector<int>& parent, vector<pair<int,int>>& bridge)
