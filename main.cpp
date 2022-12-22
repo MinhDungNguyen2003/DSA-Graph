@@ -30,10 +30,11 @@ int main(){
     cout << "Number of tree in graph is: " << ntree << endl; 
     list_isolated_vertices(arr, vertex);
     cout << endl;
+    cout << endl;
 
 //------------------------------------------------------------------------------
 
-    
+    // Ve lai ma tran vo huong cua cau 1 2 de lam cac cau ben duoi
     cout << "Matrix undirected: " << endl;
     int** arr1 = read_adjacency_list_ungraph(file_name, vertex);
     print_adjacency_maxtrix(arr1, vertex);
@@ -70,7 +71,6 @@ int main(){
 
     write_adjacency_matrix(arr1, vertex);
     read_adjacency_maxtrix("graph.txt", adj, vertex);
-
     cout << "Cut vertices are: ";
     AP(adj, vertex);
     findBridges_Tarjan(adj, vertex);
